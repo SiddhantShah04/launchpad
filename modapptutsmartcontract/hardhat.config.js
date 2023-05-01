@@ -20,5 +20,7 @@ module.exports = {
       url: "https://arb1.arbitrum.io/rpc",
       //accounts: [ARBITRUM_MAINNET_TEMPORARY_PRIVATE_KEY]
     }
-  }
+  },
+  gas: 2100000,
+   gasPrice: 8000000000,
 };

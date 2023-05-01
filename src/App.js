@@ -3,7 +3,7 @@ import "./App.css";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import TokenArtifact from "./ICO.json";
-const tokenAddress = "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853";
+const tokenAddress = "0x1613beB3B2C4f22Ee086B2b38C1476A3cE7f78E8";
 
 function App() {
   const [tokenData, setTokenData] = useState("");
@@ -44,19 +44,19 @@ function App() {
 
   const buyToken = async () => {
     // get sell info
-    const sellInfo = await contract.buyTokenWithLockInWithEth();
+    const sellInfo = await contract.buyToken(2, { from: walletAddress,gasLimit: 5000000 });
     // const acceptToken = await contract.acceptToken();
     console.log(sellInfo);
   };
   const initiateSale = async () => {
 
     const sellInfo = await contract.initiateSale(
-      1,
+      10,
       now,
       1714498200,
       1,
-      500000,
       10,
+      100,
       false
     );
     console.log(sellInfo);
