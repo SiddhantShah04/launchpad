@@ -3,7 +3,7 @@ import "./App.css";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import TokenArtifact from "./ICO.json";
-const tokenAddress = "0x998abeb3E57409262aE5b751f60747921B33613E";
+const tokenAddress = "0x7a2088a1bFc9d81c55368AE168C2C02570cB814F";
 
 function App() {
   const [tokenData, setTokenData] = useState("");
@@ -46,11 +46,11 @@ function App() {
     // get sell info
     // send some eth to get token
     const sellInfo = await contract.buyTokenWithEth({
-      // from: walletAddress,
-      // // nonce: await provider.getTransactionCount(walletAddress, "latest"),
+      from: walletAddress,
+      nonce: await provider.getTransactionCount(walletAddress, "latest"),
       gasLimit: ethers.utils.hexlify(500000),
       // gasPrice: ethers.utils.hexlify(parseInt(await provider.getGasPrice())),
-      value: ethers.utils.parseEther("10.0"),
+      value: ethers.utils.parseEther("0.0001"),
     });
     // const acceptToken = await contract.acceptToken();
   };
@@ -59,7 +59,7 @@ function App() {
       1, //rate
       now, //startTime
       1714498200, //endTime
-      ethers.utils.parseEther("1"), // minAmount
+      ethers.utils.parseEther("0.0001"), // minAmount
       ethers.utils.parseEther("800000"), //maxAmount
       ethers.utils.parseEther("10000"), //fundingTarget
       false
@@ -93,7 +93,7 @@ function App() {
       <header className="App-header">
         {/* <button onClick={_getTokenData}>get token data</button> */}
         <h7>metamask wallet address: {walletAddress}</h7>
-        <h7>token being sold : {tokenData}</h7>
+        <h7>acceptToken sold : {tokenData}</h7>
         <h7>Is sale live: {saleStatus.toString()}</h7>
 
         <button onClick={buyToken}>Buy token</button>

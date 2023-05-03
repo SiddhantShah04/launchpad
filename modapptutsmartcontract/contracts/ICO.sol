@@ -78,9 +78,9 @@ contract ICO is Ownable, ReentrancyGuard {
         IERC20 _token,
         IERC20 _saleToken,
         uint256 _depositDeadline,
-        uint256 _cliff, //time when we get coin lockin in
+        uint256 _cliff,
         uint256 _unlockPercentAtCliff,
-        uint256 _unlockFrequency, //what
+        uint256 _unlockFrequency,
         uint256 _unlockPercent
     ) {
         require(
