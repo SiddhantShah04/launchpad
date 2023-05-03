@@ -3,7 +3,7 @@ import "./App.css";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import TokenArtifact from "./ICO.json";
-const tokenAddress = "0x1613beB3B2C4f22Ee086B2b38C1476A3cE7f78E8";
+const tokenAddress = "0x998abeb3E57409262aE5b751f60747921B33613E";
 
 function App() {
   const [tokenData, setTokenData] = useState("");
@@ -11,7 +11,7 @@ function App() {
   const [balance, setBalance] = useState(0);
   const [walletAddress, setWalletAddress] = useState();
   const [saleStatus, setSaleStatus] = useState("false");
-  var now = Math.round(+new Date(Date.now() + 1000 * 120).getTime() / 1000);
+  var now = Math.round(+new Date(Date.now() + 1000 * 30).getTime() / 1000);
 
   const [acceptToken, setacceptToken] = useState([]);
 
@@ -44,27 +44,34 @@ function App() {
 
   const buyToken = async () => {
     // get sell info
-    const sellInfo = await contract.buyToken(2, { from: walletAddress,gasLimit: 5000000 });
+    // send some eth to get token
+    const sellInfo = await contract.buyTokenWithEth({
+      // from: walletAddress,
+      // // nonce: await provider.getTransactionCount(walletAddress, "latest"),
+      gasLimit: ethers.utils.hexlify(500000),
+      // gasPrice: ethers.utils.hexlify(parseInt(await provider.getGasPrice())),
+      value: ethers.utils.parseEther("10.0"),
+    });
     // const acceptToken = await contract.acceptToken();
-    console.log(sellInfo);
   };
   const initiateSale = async () => {
-
     const sellInfo = await contract.initiateSale(
-      10,
-      now,
-      1714498200,
-      1,
-      10,
-      100,
+      1, //rate
+      now, //startTime
+      1714498200, //endTime
+      ethers.utils.parseEther("1"), // minAmount
+      ethers.utils.parseEther("800000"), //maxAmount
+      ethers.utils.parseEther("10000"), //fundingTarget
       false
     );
     console.log(sellInfo);
   };
   const startSale = async () => {
     const resp = await contract.startSale();
-    console.log(resp);
-    // setSaleStatus(resp)
+    // console.log("totalFunding",await contract.totalFunding([0]));
+    // console.log("currentSale",await contract.currentSale());
+
+    setSaleStatus(resp)
   };
 
   useEffect(() => {
@@ -92,14 +99,19 @@ function App() {
         <button onClick={buyToken}>Buy token</button>
         <button onClick={initiateSale}>initiate sale</button>
         <button onClick={startSale}>start sale</button>
-        <button onClick={async()=>{
-          setSaleStatus(await contract.endSale())
-        }} >End Sale</button>
+        <button
+          onClick={async () => {
+            setSaleStatus(await contract.endSale());
+          }}
+        >
+          End Sale
+        </button>
 
+        <br />
 
-        <br/>
-
-        <p>now: {new Date(now*1000).toString()},{now}</p>
+        <p>
+          now: {new Date(now * 1000).toString()},{now}
+        </p>
         {/* <button onClick={sendMDToken}>Send MDToken</button> */}
         {/* <input onChange={e => setUserAccountId(e.target.value)} placeholder="Account ID" />
         <input onChange={e => setAmount(e.target.value)} placeholder="Amount" /> */}

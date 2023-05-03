@@ -25,13 +25,14 @@ async function main() {
   const Lock = await hre.ethers.getContractFactory("ICO");
 
   const lock = await Lock.deploy(
-    "0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199",
-    "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-    "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    // need to have gari token , also give autority ICO contarct to do transaction by using tis address
+    "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266", //collect funds _wallet(Must cotains token that we need to send)
+    "0x0CDF9acd87E940837ff21BB40c9fd55F68bba059", //_token token which get accecpted for buying new token(eth mint address)
+    "0x5eb3Bc0a489C5A8288765d2336659EbCA68FCd00", //_saleToken saleToken (Gari)
     1714498200,
-    30,
-    25,
-    86400,
+    3600,
+    50,
+    10,
     25
   );
 
